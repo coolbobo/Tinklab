@@ -1,6 +1,12 @@
 package com.tinklabs.cityapp.service;
 
+import com.tinklabs.cityapp.R;
+import com.tinklabs.cityapp.comm.CommonConsts;
 import com.tinklabs.cityapp.model.ContentModel;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -15,12 +21,13 @@ public class ContentServ {
     public ArrayList<ContentModel> shopList = new ArrayList<ContentModel>();
     public ArrayList<ContentModel> eatList = new ArrayList<ContentModel>();
     private ContentServ contentServ;
+    private JsonService jsonServ;
 
 
     private static ContentServ instance = null;
 
     private ContentServ() {
-
+        jsonServ  = JsonService.getInstance();
     }
 
     /**
@@ -39,7 +46,36 @@ public class ContentServ {
      */
     public void getCityGuideData()
     {
+        //JSON解析数据
+        JSONArray jsonArray = jsonServ.getDataByContentType(CommonConsts.CITY_GUIDE);
+        if (jsonArray == null)
+        {
+            return;
+        }
+        JSONObject jsonObject = null;
+        ContentModel model = null;
+        try {
+             for(int i = 0; i < jsonArray.length(); i++)
+            {
+                jsonObject = (JSONObject) jsonArray.get(i);
+                model = new ContentModel();
+                model.contentType = jsonObject.getInt("contentType");
+                if (model.contentType == CommonConsts.CONTENT_TYPE_PIC_TEXT )
+                {
+                    model.title = jsonObject.getString("title");
+                    model.pictureUri = jsonObject.getInt("image");
+                    model.content = jsonObject.getString("titleContent");
+                }
+                else
+                {
+                    model.pictureUri = jsonObject.getInt("image");
+                }
+                cityGuideList.add(0,model);
 
+            }
+        } catch (JSONException e) {
+                e.printStackTrace();
+        }
     }
 
     /**
@@ -47,7 +83,7 @@ public class ContentServ {
      */
     public void getShopData()
     {
-
+        jsonServ.getDataByContentType(CommonConsts.SHOP);
     }
 
     /**
@@ -55,6 +91,8 @@ public class ContentServ {
      */
     public void getEatData()
     {
-
+        jsonServ.getDataByContentType(CommonConsts.EAT);
     }
+
+
 }

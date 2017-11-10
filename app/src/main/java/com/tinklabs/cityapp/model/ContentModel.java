@@ -6,7 +6,7 @@ package com.tinklabs.cityapp.model;
  */
 
 public class ContentModel {
-    public String pictureUri; //图片的URL
+    public int pictureUri; //图片的URL
     public String title;//显示的文字标题
     public String content;//文字的内容
     public int contentType;//显示的图片类型、图片和文字混排类型
