@@ -1,6 +1,8 @@
 package com.tinklabs.cityapp.activity;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -12,11 +14,12 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.jwenfeng.library.pulltorefresh.BaseRefreshListener;
+import com.jwenfeng.library.pulltorefresh.PullToRefreshLayout;
 import com.tinklabs.cityapp.R;
 import com.tinklabs.cityapp.comm.CommonConsts;
 import com.tinklabs.cityapp.model.ContentModel;
 import com.tinklabs.cityapp.service.ContentServ;
-import com.tinklabs.cityapp.thirdLib.CircleRefreshLayout;
 
 import java.util.ArrayList;
 
@@ -27,10 +30,16 @@ public class MainActivity extends AppCompatActivity {
 
     public ContentServ conterServ = null;
 
-    private CircleRefreshLayout mRefreshLayout;
+    private PullToRefreshLayout pullToRefreshLayout;
+
+
     private ListView mList;
     private ContentCityGuideListAdapter contentListAdapter;
+    private RelativeLayout cityGuideLayout,shopLayout,eatLayout;
+    private TextView cityGuideTxt,shopTxt,eatTxt;
+    private RelativeLayout cityGuideLine,shopLine,eatLine;
     public static Context mContext;
+    public static int currContent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,38 +51,148 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         mContext = this;
+        init();
+
+
+    }
+
+    private void init()
+    {
+        cityGuideLayout =  (RelativeLayout) findViewById(R.id.cityguide_layout);
+        shopLayout =  (RelativeLayout) findViewById(R.id.shop_layout);
+        eatLayout =  (RelativeLayout) findViewById(R.id.eat_layout);
+
+        cityGuideTxt = (TextView) findViewById(R.id.cityGuideTxt);
+        shopTxt = (TextView) findViewById(R.id.shopTxt);
+        eatTxt = (TextView) findViewById(R.id.eatTxt);
+
+        cityGuideLine = (RelativeLayout) findViewById(R.id.cityGuideLine);
+        shopLine = (RelativeLayout) findViewById(R.id.shopLine);
+        eatLine = (RelativeLayout) findViewById(R.id.eatLine);
+
+        pullToRefreshLayout = (PullToRefreshLayout) findViewById(R.id.refresh_layout);
+        mList = (ListView) findViewById(R.id.list);
+        contentListAdapter = new ContentCityGuideListAdapter();
+        pullToRefreshLayout.setRefreshListener(new BaseRefreshListener() {
+            @Override
+            public void refresh() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        // 结束刷新
+                        if(currContent == CommonConsts.SHOP)
+                        {
+                            conterServ.getShopData();
+                        }
+                        else if (currContent == CommonConsts.EAT)
+                        {
+                            conterServ.getEatData();
+                        }else
+                        {
+                            conterServ.getCityGuideData();
+                        }
+
+
+                        contentListAdapter.notifyDataSetChanged();
+                        pullToRefreshLayout.finishRefresh();
+                    }
+                }, 2000);
+            }
+
+            @Override
+            public void loadMore() {
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        // 结束加载更多
+                        pullToRefreshLayout.finishLoadMore();
+                    }
+                }, 2000);
+            }
+        });
+
 
         //提前加载数据，显示时能快速显示出来。
         conterServ.getCityGuideData();
         conterServ.getEatData();
         conterServ.getShopData();
-        showData();
 
+        cityGuideLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //切換數據
+                cityGuideTxt.setTextColor(Color.BLACK);
+                shopTxt.setTextColor(Color.GRAY);
+                eatTxt.setTextColor(Color.GRAY);
+
+                cityGuideLine.setVisibility(View.VISIBLE);
+                shopLine.setVisibility(View.INVISIBLE);
+                eatLine.setVisibility(View.INVISIBLE);
+
+                showData(CommonConsts.CITY_GUIDE);
+                currContent = CommonConsts.CITY_GUIDE;
+
+            }
+        });
+
+        shopLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //切換數據
+                cityGuideTxt.setTextColor(Color.GRAY);
+                shopTxt.setTextColor(Color.BLACK);
+                eatTxt.setTextColor(Color.GRAY);
+
+                cityGuideLine.setVisibility(View.INVISIBLE);
+                shopLine.setVisibility(View.VISIBLE);
+                eatLine.setVisibility(View.INVISIBLE);
+
+                showData(CommonConsts.SHOP);
+                currContent = CommonConsts.SHOP;
+            }
+        });
+
+        eatLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //切換數據
+                cityGuideTxt.setTextColor(Color.GRAY);
+                shopTxt.setTextColor(Color.GRAY);
+                eatTxt.setTextColor(Color.BLACK);
+
+                cityGuideLine.setVisibility(View.INVISIBLE);
+                shopLine.setVisibility(View.INVISIBLE);
+                eatLine.setVisibility(View.VISIBLE);
+
+                showData(CommonConsts.EAT);
+                currContent = CommonConsts.EAT;
+            }
+        });
+        cityGuideLayout.performClick();
+        showData(CommonConsts.CITY_GUIDE);
 
     }
 
-    private void showData()
+    private void showData(int contentType)
     {
-        mRefreshLayout = (CircleRefreshLayout) findViewById(R.id.refresh_layout);
-        mList = (ListView) findViewById(R.id.list);
-        contentListAdapter = new ContentCityGuideListAdapter();
 
-        contentListAdapter.setData(conterServ.cityGuideList);
+        if (contentType == CommonConsts.CITY_GUIDE)
+        {
+            contentListAdapter.setData(conterServ.cityGuideList);
+        }
+        else if (contentType == CommonConsts.EAT)
+        {
+            contentListAdapter.setData(conterServ.eatList);
+        }
+        else
+        {
+            contentListAdapter.setData(conterServ.shopList);
+        }
+
         mList.setAdapter(contentListAdapter);
-        mRefreshLayout.setOnRefreshListener(
-                new CircleRefreshLayout.OnCircleRefreshListener() {
-                    @Override
-                    public void refreshing() {
-                        conterServ.getCityGuideData();
+        contentListAdapter.notifyDataSetChanged();
 
-                    }
-                    @Override
-                    public void completeRefresh() {
-                        mRefreshLayout.finishRefreshing();
-                        //通知数据更新
-                        contentListAdapter.notifyDataSetChanged();
-                    }
-                });
+
     }
 
 

@@ -109,6 +109,135 @@ public class JsonService {
         jsonObject.put("contentType",CommonConsts.CONTENT_TYPE_PIC_TEXT);
         jsonObject.put("image", R.drawable.demo);
         cityGuideJson3.put(jsonObject);
+
+
+
+        //SHOP数据
+        //json数组  
+        shopJson1 = new JSONArray();
+        jsonObject = new JSONObject();
+
+        jsonObject.put("title","坂田手造文化节");
+        jsonObject.put("titleContent","华侨城位于深圳龙岗区，背靠梧桐山");
+        jsonObject.put("contentType",CommonConsts.CONTENT_TYPE_PIC_TEXT);
+        jsonObject.put("image", R.drawable.demo);
+        shopJson1.put(jsonObject);
+
+        jsonObject = new JSONObject();
+        jsonObject.put("contentType",CommonConsts.CONTENT_TYPE_PIC);
+        jsonObject.put("image", R.drawable.demo22);
+        shopJson1.put(jsonObject);
+
+        jsonObject = new JSONObject();
+        jsonObject.put("title","海岸城");
+        jsonObject.put("titleContent","海岸城位于深圳南山区中心区");
+        jsonObject.put("contentType",CommonConsts.CONTENT_TYPE_PIC_TEXT);
+        jsonObject.put("image", R.drawable.demo);
+        shopJson1.put(jsonObject);
+
+        shopJson2 = new JSONArray();
+        jsonObject = new JSONObject();
+        jsonObject.put("title","深圳欢乐海岸");
+        jsonObject.put("titleContent","欢乐海岸位于深圳福田区，紧邻华强北");
+        jsonObject.put("contentType",CommonConsts.CONTENT_TYPE_PIC_TEXT);
+        jsonObject.put("image", R.drawable.demo);
+        shopJson2.put(jsonObject);
+
+        jsonObject = new JSONObject();
+        jsonObject.put("contentType",CommonConsts.CONTENT_TYPE_PIC);
+        jsonObject.put("image", R.drawable.demo22);
+        shopJson2.put(jsonObject);
+
+        jsonObject = new JSONObject();
+        jsonObject.put("title","深圳东门");
+        jsonObject.put("titleContent","笔架山城位于深圳罗湖中心区，背靠笔架山水厂");
+        jsonObject.put("contentType",CommonConsts.CONTENT_TYPE_PIC_TEXT);
+        jsonObject.put("image", R.drawable.demo);
+        shopJson2.put(jsonObject);
+
+        shopJson3 = new JSONArray();
+        jsonObject = new JSONObject();
+        jsonObject.put("title","华强北九方");
+        jsonObject.put("titleContent","梧桐山位于深圳福田区，紧邻华强北");
+        jsonObject.put("contentType",CommonConsts.CONTENT_TYPE_PIC_TEXT);
+        jsonObject.put("image", R.drawable.demo);
+        shopJson3.put(jsonObject);
+
+        jsonObject = new JSONObject();
+        jsonObject.put("contentType",CommonConsts.CONTENT_TYPE_PIC);
+        jsonObject.put("image", R.drawable.demo22);
+        shopJson3.put(jsonObject);
+
+        jsonObject = new JSONObject();
+        jsonObject.put("title","八号仓");
+        jsonObject.put("titleContent","塘朗山位于深圳福田区中心区，背靠笔架山水厂");
+        jsonObject.put("contentType",CommonConsts.CONTENT_TYPE_PIC_TEXT);
+        jsonObject.put("image", R.drawable.demo);
+        shopJson3.put(jsonObject);
+
+
+        //美食数据
+        //json数组  
+        eatJson1 = new JSONArray();
+        jsonObject = new JSONObject();
+
+        jsonObject.put("title","沙湾");
+        jsonObject.put("titleContent","华侨城位于深圳盐田区，背靠梧桐山");
+        jsonObject.put("contentType",CommonConsts.CONTENT_TYPE_PIC_TEXT);
+        jsonObject.put("image", R.drawable.demo);
+        eatJson1.put(jsonObject);
+
+        jsonObject = new JSONObject();
+        jsonObject.put("contentType",CommonConsts.CONTENT_TYPE_PIC);
+        jsonObject.put("image", R.drawable.demo22);
+        eatJson1.put(jsonObject);
+
+        jsonObject = new JSONObject();
+        jsonObject.put("title","龙岗布吉");
+        jsonObject.put("titleContent","莲花山城位于深圳福田区中心区");
+        jsonObject.put("contentType",CommonConsts.CONTENT_TYPE_PIC_TEXT);
+        jsonObject.put("image", R.drawable.demo);
+        eatJson1.put(jsonObject);
+
+        eatJson2 = new JSONArray();
+        jsonObject = new JSONObject();
+        jsonObject.put("title","南湾");
+        jsonObject.put("titleContent","中心公园位于深圳福田区，紧邻华强北");
+        jsonObject.put("contentType",CommonConsts.CONTENT_TYPE_PIC_TEXT);
+        jsonObject.put("image", R.drawable.demo);
+        eatJson2.put(jsonObject);
+
+        jsonObject = new JSONObject();
+        jsonObject.put("contentType",CommonConsts.CONTENT_TYPE_PIC);
+        jsonObject.put("image", R.drawable.demo22);
+        eatJson2.put(jsonObject);
+
+        jsonObject = new JSONObject();
+        jsonObject.put("title","大份");
+        jsonObject.put("titleContent","笔架山城位于深圳福田区中心区，背靠笔架山水厂");
+        jsonObject.put("contentType",CommonConsts.CONTENT_TYPE_PIC_TEXT);
+        jsonObject.put("image", R.drawable.demo);
+        eatJson2.put(jsonObject);
+
+        eatJson3 = new JSONArray();
+        jsonObject = new JSONObject();
+        jsonObject.put("title","沙头角");
+        jsonObject.put("titleContent","梧桐山位于深圳福田区，紧邻华强北");
+        jsonObject.put("contentType",CommonConsts.CONTENT_TYPE_PIC_TEXT);
+        jsonObject.put("image", R.drawable.demo);
+        eatJson3.put(jsonObject);
+
+        jsonObject = new JSONObject();
+        jsonObject.put("contentType",CommonConsts.CONTENT_TYPE_PIC);
+        jsonObject.put("image", R.drawable.demo22);
+        eatJson3.put(jsonObject);
+
+        jsonObject = new JSONObject();
+        jsonObject.put("title","盐田海鲜");
+        jsonObject.put("titleContent","塘朗山位于深圳福田区中心区，背靠笔架山水厂");
+        jsonObject.put("contentType",CommonConsts.CONTENT_TYPE_PIC_TEXT);
+        jsonObject.put("image", R.drawable.demo);
+        eatJson3.put(jsonObject);
     }
 
     /**

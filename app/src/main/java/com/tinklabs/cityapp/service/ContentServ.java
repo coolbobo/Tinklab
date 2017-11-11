@@ -83,7 +83,36 @@ public class ContentServ {
      */
     public void getShopData()
     {
-        jsonServ.getDataByContentType(CommonConsts.SHOP);
+        //JSON解析数据
+        JSONArray jsonArray = jsonServ.getDataByContentType(CommonConsts.SHOP);
+        if (jsonArray == null)
+        {
+            return;
+        }
+        JSONObject jsonObject = null;
+        ContentModel model = null;
+        try {
+            for(int i = 0; i < jsonArray.length(); i++)
+            {
+                jsonObject = (JSONObject) jsonArray.get(i);
+                model = new ContentModel();
+                model.contentType = jsonObject.getInt("contentType");
+                if (model.contentType == CommonConsts.CONTENT_TYPE_PIC_TEXT )
+                {
+                    model.title = jsonObject.getString("title");
+                    model.pictureUri = jsonObject.getInt("image");
+                    model.content = jsonObject.getString("titleContent");
+                }
+                else
+                {
+                    model.pictureUri = jsonObject.getInt("image");
+                }
+                shopList.add(0,model);
+
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -91,7 +120,36 @@ public class ContentServ {
      */
     public void getEatData()
     {
-        jsonServ.getDataByContentType(CommonConsts.EAT);
+        //JSON解析数据
+        JSONArray jsonArray = jsonServ.getDataByContentType(CommonConsts.EAT);
+        if (jsonArray == null)
+        {
+            return;
+        }
+        JSONObject jsonObject = null;
+        ContentModel model = null;
+        try {
+            for(int i = 0; i < jsonArray.length(); i++)
+            {
+                jsonObject = (JSONObject) jsonArray.get(i);
+                model = new ContentModel();
+                model.contentType = jsonObject.getInt("contentType");
+                if (model.contentType == CommonConsts.CONTENT_TYPE_PIC_TEXT )
+                {
+                    model.title = jsonObject.getString("title");
+                    model.pictureUri = jsonObject.getInt("image");
+                    model.content = jsonObject.getString("titleContent");
+                }
+                else
+                {
+                    model.pictureUri = jsonObject.getInt("image");
+                }
+                eatList.add(0,model);
+
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 
