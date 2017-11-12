@@ -1,5 +1,7 @@
 package com.tinklabs.cityapp.service;
 
+import android.util.Log;
+
 import com.tinklabs.cityapp.comm.CommonConsts;
 import com.tinklabs.cityapp.model.ContentModel;
 
@@ -23,6 +25,7 @@ public class ContentServ {
 
 
     private static ContentServ instance = null;
+    private static String TAG = "ContentServ";
 
     private ContentServ() {
         jsonServ  = JsonService.getInstance();
@@ -48,6 +51,7 @@ public class ContentServ {
         JSONArray jsonArray = jsonServ.getDataByContentType(CommonConsts.CITY_GUIDE);
         if (jsonArray == null)
         {
+            Log.i(TAG, "city guide data is null");
             return;
         }
         JSONObject jsonObject = null;
@@ -72,7 +76,7 @@ public class ContentServ {
 
             }
         } catch (JSONException e) {
-                e.printStackTrace();
+            Log.e(TAG, e.getMessage());
         }
     }
 
@@ -85,6 +89,7 @@ public class ContentServ {
         JSONArray jsonArray = jsonServ.getDataByContentType(CommonConsts.SHOP);
         if (jsonArray == null)
         {
+            Log.i(TAG, "shop data is null");
             return;
         }
         JSONObject jsonObject = null;
@@ -109,7 +114,7 @@ public class ContentServ {
 
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.e(TAG, e.getMessage());
         }
     }
 
@@ -122,6 +127,7 @@ public class ContentServ {
         JSONArray jsonArray = jsonServ.getDataByContentType(CommonConsts.EAT);
         if (jsonArray == null)
         {
+            Log.i(TAG, "eat data is null");
             return;
         }
         JSONObject jsonObject = null;
@@ -146,7 +152,7 @@ public class ContentServ {
 
             }
         } catch (JSONException e) {
-            e.printStackTrace();
+            Log.e(TAG, e.getMessage());
         }
     }
 

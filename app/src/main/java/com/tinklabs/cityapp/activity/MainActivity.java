@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,13 +34,15 @@ public class MainActivity extends AppCompatActivity {
     private PullToRefreshLayout pullToRefreshLayout; //下拉刷新组件
 
 
-    private ListView mContentList; //显示具体内容的列表
+    private ListView mContentList; //显示具体内容的列表,三个列表共用一个List
     private ContentCityGuideListAdapter contentListAdapter; //显示内容的适配器
     private RelativeLayout cityGuideLayout,shopLayout,eatLayout; //布局对象
     private TextView cityGuideTxt,shopTxt,eatTxt;//布局对象
     private RelativeLayout cityGuideLine,shopLine,eatLine;//布局对象
-    public static Context mContext;
+    public static Context mContext; //程序上下文
     private static int currContent; //当前显示的内容，城市向导、购物、美食
+
+    private static String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,6 +119,17 @@ public class MainActivity extends AppCompatActivity {
         conterServ.getEatData();
         conterServ.getShopData();
 
+        initListener();
+
+        //程序初始化时，需要聚集焦点在第一个按钮上，模拟点击事件。
+        cityGuideLayout.performClick();
+    }
+
+    /**
+     * 控件点击事件注册
+     */
+    private void initListener()
+    {
         //城市向导的点击事件
         cityGuideLayout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,6 +145,7 @@ public class MainActivity extends AppCompatActivity {
 
                 showData(CommonConsts.CITY_GUIDE);
                 currContent = CommonConsts.CITY_GUIDE;
+                Log.i(TAG, "cityGuideLayout click");
 
             }
         });
@@ -149,6 +164,7 @@ public class MainActivity extends AppCompatActivity {
 
                 showData(CommonConsts.SHOP);
                 currContent = CommonConsts.SHOP;
+                Log.i(TAG, "shopLayout click");
             }
         });
         //美食向导的点击事件
@@ -166,11 +182,9 @@ public class MainActivity extends AppCompatActivity {
 
                 showData(CommonConsts.EAT);
                 currContent = CommonConsts.EAT;
+                Log.i(TAG, "eatLayout click");
             }
         });
-        cityGuideLayout.performClick();
-        showData(CommonConsts.CITY_GUIDE);
-
     }
 
     /**

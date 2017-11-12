@@ -1,5 +1,7 @@
 package com.tinklabs.cityapp.service;
 
+import android.util.Log;
+
 import com.tinklabs.cityapp.R;
 import com.tinklabs.cityapp.comm.CommonConsts;
 
@@ -28,6 +30,7 @@ public class JsonService {
     private static int GET_DATA_COUNT_2 = 2;
     private static int GET_DATA_COUNT_3 = 3;
     private static JsonService instance = null;
+    private static String TAG = "JsonService";
 
     private JsonService() {
         try {
@@ -254,6 +257,7 @@ public class JsonService {
         if (contentType == CommonConsts.CITY_GUIDE) {
             cityGuideReqCount++;
             if (cityGuideReqCount > GET_DATA_COUNT_3) {
+                Log.i(TAG, "city guide data is max count");
                 return null;
             }
             if (cityGuideReqCount == GET_DATA_COUNT_1) {
@@ -268,6 +272,7 @@ public class JsonService {
         } else if (contentType == CommonConsts.SHOP) {
             shopReqCount++;
             if (shopReqCount > GET_DATA_COUNT_3) {
+                Log.i(TAG, "shop data is max count");
                 return null;
             }
             if (shopReqCount == GET_DATA_COUNT_1) {
@@ -281,6 +286,7 @@ public class JsonService {
         } else if (contentType == CommonConsts.EAT) {
             eatReqCount++;
             if (eatReqCount > GET_DATA_COUNT_3) {
+                Log.i(TAG, "eat data is max count");
                 return null;
             }
             if (eatReqCount == GET_DATA_COUNT_1) {
@@ -291,6 +297,7 @@ public class JsonService {
                 return eatJson3;
             }
         }
+        Log.e(TAG, "get data content type error");
         return null;
     }
 }
