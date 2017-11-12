@@ -70,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
         pullToRefreshLayout = (PullToRefreshLayout) findViewById(R.id.refresh_layout);
         mContentList = (ListView) findViewById(R.id.list);
         contentListAdapter = new ContentCityGuideListAdapter();
+
+        pullToRefreshLayout.setCanLoadMore(false);
         pullToRefreshLayout.setRefreshListener(new BaseRefreshListener() {
             @Override
             public void refresh() {
@@ -273,5 +275,4 @@ public class MainActivity extends AppCompatActivity {
         TextView title;
         TextView titleContent;
     }
-
 }

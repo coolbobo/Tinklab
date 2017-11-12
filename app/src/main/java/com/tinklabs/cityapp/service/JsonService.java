@@ -246,7 +246,7 @@ public class JsonService {
 
     /**
      *
-     * @param contentType 获取数据的类型：ctiyguide/shop/eat
+     * @param contentType 获取数据：ctiyguide/shop/eat
      * @return
      */
     public JSONArray getDataByContentType(int contentType)
