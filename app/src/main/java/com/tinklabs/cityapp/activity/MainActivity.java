@@ -24,38 +24,35 @@ import com.tinklabs.cityapp.service.ContentServ;
 import java.util.ArrayList;
 
 /**
- * 程序页面Activity类，用于显示页面
+ * 程序页面Activity类，用于显示页面，切换页面
  */
 public class MainActivity extends AppCompatActivity {
 
-    public ContentServ conterServ = null;
+    public ContentServ conterServ = null;  //界面UI服务类
 
-    private PullToRefreshLayout pullToRefreshLayout;
+    private PullToRefreshLayout pullToRefreshLayout; //下拉刷新组件
 
 
-    private ListView mList;
-    private ContentCityGuideListAdapter contentListAdapter;
-    private RelativeLayout cityGuideLayout,shopLayout,eatLayout;
-    private TextView cityGuideTxt,shopTxt,eatTxt;
-    private RelativeLayout cityGuideLine,shopLine,eatLine;
+    private ListView mContentList; //显示具体内容的列表
+    private ContentCityGuideListAdapter contentListAdapter; //显示内容的适配器
+    private RelativeLayout cityGuideLayout,shopLayout,eatLayout; //布局对象
+    private TextView cityGuideTxt,shopTxt,eatTxt;//布局对象
+    private RelativeLayout cityGuideLine,shopLine,eatLine;//布局对象
     public static Context mContext;
-    public static int currContent;
+    private static int currContent; //当前显示的内容，城市向导、购物、美食
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
         conterServ = ContentServ.getInstance();
-
-
         setContentView(R.layout.activity_main);
         mContext = this;
         init();
-
-
     }
 
+    /**
+     * 初始化页面和数据
+     */
     private void init()
     {
         cityGuideLayout =  (RelativeLayout) findViewById(R.id.cityguide_layout);
@@ -71,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
         eatLine = (RelativeLayout) findViewById(R.id.eatLine);
 
         pullToRefreshLayout = (PullToRefreshLayout) findViewById(R.id.refresh_layout);
-        mList = (ListView) findViewById(R.id.list);
+        mContentList = (ListView) findViewById(R.id.list);
         contentListAdapter = new ContentCityGuideListAdapter();
         pullToRefreshLayout.setRefreshListener(new BaseRefreshListener() {
             @Override
@@ -79,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        // 结束刷新
+                        // 根据不同的显示类型，加载不同的数据
                         if(currContent == CommonConsts.SHOP)
                         {
                             conterServ.getShopData();
@@ -92,11 +89,11 @@ public class MainActivity extends AppCompatActivity {
                             conterServ.getCityGuideData();
                         }
 
-
+                        //通知刷新数据
                         contentListAdapter.notifyDataSetChanged();
                         pullToRefreshLayout.finishRefresh();
                     }
-                }, 2000);
+                }, 500);
             }
 
             @Override
@@ -107,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
                         // 结束加载更多
                         pullToRefreshLayout.finishLoadMore();
                     }
-                }, 2000);
+                }, 500);
             }
         });
 
@@ -117,6 +114,7 @@ public class MainActivity extends AppCompatActivity {
         conterServ.getEatData();
         conterServ.getShopData();
 
+        //城市向导的点击事件
         cityGuideLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,7 +132,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-
+        //购物的点击事件
         shopLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                 currContent = CommonConsts.SHOP;
             }
         });
-
+        //美食向导的点击事件
         eatLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -173,6 +171,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * 修改适配器的显示数据
+     * @param contentType
+     */
     private void showData(int contentType)
     {
 
@@ -188,15 +190,15 @@ public class MainActivity extends AppCompatActivity {
         {
             contentListAdapter.setData(conterServ.shopList);
         }
-
-        mList.setAdapter(contentListAdapter);
+        mContentList.setAdapter(contentListAdapter);
         contentListAdapter.notifyDataSetChanged();
-
 
     }
 
 
-
+    /**
+     * 数据适配器类，用于显示具体的某一条数据
+     */
     private class ContentCityGuideListAdapter extends BaseAdapter
     {
         private ArrayList<ContentModel> cityGuideLst = new ArrayList<ContentModel>();
@@ -255,23 +257,20 @@ public class MainActivity extends AppCompatActivity {
                 cityGuideViewHolder.picTextLayout.setVisibility(View.GONE);
                 cityGuideViewHolder.itemPic.setImageResource(cityGuideItem.pictureUri);
             }
-
             return arg1;
         }
     }
 
+    /**
+     * Item数据的Holder
+     */
     class CityGuideViewHolder
     {
         RelativeLayout picLayout;
         ImageView itemPic;
-
         RelativeLayout picTextLayout;
-        /* 点赞 */
         ImageView itemPicTextPic;
-
-        /* 姓名 */
         TextView title;
-        /* 擅长 */
         TextView titleContent;
     }
 

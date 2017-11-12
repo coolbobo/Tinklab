@@ -1,6 +1,5 @@
 package com.tinklabs.cityapp.service;
 
-import com.tinklabs.cityapp.R;
 import com.tinklabs.cityapp.comm.CommonConsts;
 import com.tinklabs.cityapp.model.ContentModel;
 
@@ -17,11 +16,10 @@ import java.util.ArrayList;
 
 public class ContentServ {
 
-    public ArrayList<ContentModel> cityGuideList = new ArrayList<ContentModel>();
-    public ArrayList<ContentModel> shopList = new ArrayList<ContentModel>();
-    public ArrayList<ContentModel> eatList = new ArrayList<ContentModel>();
-    private ContentServ contentServ;
-    private JsonService jsonServ;
+    public ArrayList<ContentModel> cityGuideList = new ArrayList<ContentModel>();  //城市服务数据
+    public ArrayList<ContentModel> shopList = new ArrayList<ContentModel>();//购物服务数据
+    public ArrayList<ContentModel> eatList = new ArrayList<ContentModel>();//美食服务数据
+    private JsonService jsonServ; //JSON服务处理
 
 
     private static ContentServ instance = null;
